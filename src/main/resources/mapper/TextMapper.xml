@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xu.textread.mapper.TextMapper">
+
+    <resultMap id="BaseResultMap" type="com.xu.textread.model.domain.Text">
+            <id property="textId" column="textId" jdbcType="BIGINT"/>
+            <result property="textTitle" column="textTitle" jdbcType="VARCHAR"/>
+            <result property="textAuthorId" column="textAuthorId" jdbcType="BIGINT"/>
+            <result property="showImgUrl" column="showImgUrl" jdbcType="VARCHAR"/>
+            <result property="userText" column="userText" jdbcType="VARCHAR"/>
+            <result property="textHtml" column="textHtml" jdbcType="VARCHAR"/>
+            <result property="textIntroduce" column="textIntroduce" jdbcType="VARCHAR"/>
+            <result property="textLikeNumber" column="TextLikeNumber" jdbcType="BIGINT"/>
+            <result property="textFavoriteNumber" column="textFavoriteNumber" jdbcType="BIGINT"/>
+            <result property="textStatus" column="textStatus" jdbcType="INTEGER"/>
+            <result property="createTime" column="createTime" jdbcType="TIMESTAMP"/>
+            <result property="updateTime" column="updateTime" jdbcType="TIMESTAMP"/>
+            <result property="isDelete" column="isDelete" jdbcType="TINYINT"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        textId,textTitle,textAuthorName,
+        textAuthorId,showImgUrl,userText,
+        textHtml,TextLikeNumber,textFavoriteNumber,
+        textStatus,createTime,updateTime,
+        isDelete
+    </sql>
+</mapper>
