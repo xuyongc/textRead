@@ -2,12 +2,14 @@ package com.xu.textread.service;
 
 import com.xu.textread.model.domain.User;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.xu.textread.model.request.UserUpdateRequest;
 import com.xu.textread.model.vo.UserVo;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 
 /**
-* @author aniki
+* @Author xyc
 * @description 针对表【user(用户表)】的数据库操作Service
 * @createDate 2023-01-26 22:12:04
 */
@@ -46,7 +48,7 @@ public interface UserService extends IService<User> {
      * @param loginUser
      * @return
      */
-    long updateUser(User user, UserVo loginUser);
+    long updateUser(UserUpdateRequest user, UserVo loginUser);
 
     /**
      * 删除用户管理员和用户都可以用
@@ -71,6 +73,15 @@ public interface UserService extends IService<User> {
     UserVo getLoginUser(HttpServletRequest request);
 
     /**
+     * 上传图片
+     * @param userId
+     * @param request
+     * @param file
+     * @return
+     */
+    String userAvatarUrlUpload(long userId, HttpServletRequest request, MultipartFile file);
+
+    /**
      * 判断是否为管理员
      * @param user
      * @return
@@ -83,4 +94,27 @@ public interface UserService extends IService<User> {
      * @return
      */
     boolean isAdmin(HttpServletRequest request);
+
+    /**
+     * 获取登录id
+     * @param request
+     * @return
+     */
+    long getLoginUserId(HttpServletRequest request);
+
+    /**
+     * 文件上传
+     * @param request
+     * @param file
+     * @return
+     */
+    String upload(HttpServletRequest request, MultipartFile file);
+
+    /**
+     * 判断是否是自己
+     * @param userId
+     * @param request
+     * @return
+     */
+    boolean isMe(Long userId, HttpServletRequest request);
 }

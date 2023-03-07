@@ -6,7 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Configuration;
 
 /**
- * @author aniki
+ * @Author xyc
  */
 @SpringBootApplication
 @MapperScan("com.xu.textread.mapper")

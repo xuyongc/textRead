@@ -11,7 +11,6 @@ import com.xu.textread.service.FriendsService;
 import com.xu.textread.mapper.FriendsMapper;
 import com.xu.textread.service.UserService;
 import com.xu.textread.utils.BeanUtil;
-import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -19,7 +18,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 /**
- * @author aniki
+ * @Author xyc
  * @description 针对表【friends(关注表)】的数据库操作Service实现
  * @createDate 2023-02-10 13:46:33
  */
@@ -38,51 +37,44 @@ public class FriendsServiceImpl extends ServiceImpl<FriendsMapper, Friends>
         // todo 参数判断
 
         Long userId = friendsRequest.getUserId();
-        if (!userId.equals(userService.getLoginUser(request).getUserId())) {
+        if (!userService.isMe(userId, request)) {
             throw new BusinessException(ErrorCode.REQUEST_ERROR, "不是自己添加");
         }
 
 
         Long friendId = friendsRequest.getFriendId();
 
-        if (userId.equals(friendId)){
-            throw new BusinessException(ErrorCode.PARAMS_ERROR,"自己不能添加自己");
+        if (userId.equals(friendId)) {
+            throw new BusinessException(ErrorCode.PARAMS_ERROR, "自己不能添加自己");
         }
 
         QueryWrapper<Friends> friendsQueryWrapper = new QueryWrapper<>();
-        friendsQueryWrapper.eq("userId", userId).eq("friendsId", friendId);
+        friendsQueryWrapper.eq("userId", userId).eq("friendId", friendId);
         long count = this.count(friendsQueryWrapper);
 
         Friends friends = BeanUtil.copyProperties(friendsRequest, new Friends());
 
-        boolean result = false;
         //添加
-        int updateCode = friendsRequest.getUpdateCode();
-        if (updateCode == 0) {
-            if (count != 0) {
-                throw new BusinessException(ErrorCode.REQUEST_ERROR, "已经关注");
-            }
-
-            result = this.save(friends);
+        if (count != 0) {
+            throw new BusinessException(ErrorCode.REQUEST_ERROR, "已经关注");
         }
-        // todo 这段代码写的真垃圾之后记得优化，写的真TM垃圾
-        if (updateCode == 1) {
-            if (count == 0) {
-                throw new BusinessException(ErrorCode.REQUEST_ERROR, "已经删除");
-            }
-            result = this.removeById(friends);
-        }
-
-        return result;
+        return this.save(friends);
     }
 
     @Override
-    public List<FriendVo> getFriendsList(long userId){
-        if (userId <= 0){
+    public List<FriendVo> getFriendsList(long userId) {
+        if (userId <= 0) {
             throw new BusinessException(ErrorCode.PARAMS_ERROR);
         }
+        return friendsMapper.selectFriendVoList(userId);
+    }
 
-       return friendsMapper.selectFriendVoList(userId);
+    @Override
+    public List<FriendVo> getMyFansList(long friendId) {
+        if (friendId <= 0) {
+            throw new BusinessException(ErrorCode.PARAMS_ERROR);
+        }
+        return friendsMapper.selectMyFanList(friendId);
     }
 }
 

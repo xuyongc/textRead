@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * @author aniki
+ * @Author xyc
  * @CreteDate 2023/2/6 12:18
  **/
 @Component
@@ -21,7 +21,6 @@ public class LoginInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-
         // todo 没登录不能看其他内容
         if (userService.getLoginUser(request) == null){
             return false;

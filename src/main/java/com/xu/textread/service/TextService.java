@@ -5,12 +5,14 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.xu.textread.model.request.TextSaveRequest;
 import com.xu.textread.model.request.TextUpdateRequest;
 import com.xu.textread.model.vo.TextVo;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
 import java.util.List;
 
 /**
-* @author aniki
+* @Author xyc
 * @description 针对表【text(文章表)】的数据库操作Service
 * @createDate 2023-01-26 22:12:04
 */

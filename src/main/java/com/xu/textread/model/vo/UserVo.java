@@ -11,7 +11,7 @@ import java.util.Date;
 
 /**
  * 用户表
- * @author aniki
+ * @Author xyc
  * @TableName user
  */
 @Data

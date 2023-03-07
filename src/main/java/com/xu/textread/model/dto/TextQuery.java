@@ -13,7 +13,7 @@ import java.util.Date;
 /**
  * 文章表
  *
- * @author aniki
+ * @Author xyc
  * @TableName text
  */
 @Data

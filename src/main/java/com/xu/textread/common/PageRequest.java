@@ -5,7 +5,7 @@ import lombok.Data;
 import java.io.Serializable;
 
 /**
- * @author aniki
+ * @Author xyc
  * @CreteDate 2023/2/8 17:37
  *
  * 通用分页请求参数

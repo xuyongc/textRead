@@ -3,7 +3,7 @@ package com.xu.textread.utils;
 import org.springframework.beans.BeanUtils;
 
 /**
- * @author aniki
+ * @Author xyc
  * @CreteDate 2023/2/11 15:28
  **/
 public class BeanUtil {

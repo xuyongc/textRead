@@ -9,7 +9,7 @@ import org.apache.ibatis.annotations.Param;
 import java.util.List;
 
 /**
-* @author aniki
+* @Author xyc
 * @description 针对表【friends(关注表)】的数据库操作Mapper
 * @createDate 2023-02-10 13:46:33
 * @Entity generator.domain.Friends
@@ -22,6 +22,13 @@ public interface FriendsMapper extends BaseMapper<Friends> {
      * @return
      */
     List<FriendVo> selectFriendVoList(@Param("userId") long userId);
+
+    /**
+     * 查询我的粉丝
+     * @param friendId
+     * @return
+     */
+    List<FriendVo> selectMyFanList(long friendId);
 }
 
 

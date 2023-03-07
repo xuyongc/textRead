@@ -13,12 +13,17 @@ import com.xu.textread.service.TextService;
 import com.xu.textread.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
+import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
 
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.util.List;
 
 import static com.xu.textread.constant.AuthorTextConstant.DEFAULT_TEXT;
@@ -27,7 +32,7 @@ import static com.xu.textread.constant.UserRoleConstant.AUTHOR_ROLE;
 import static com.xu.textread.constant.UserRoleConstant.DEFAULT_ROLE;
 
 /**
- * @author aniki
+ * @Author xyc
  * @CreteDate 2023/2/7 15:20
  * 作者表
  **/

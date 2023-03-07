@@ -33,7 +33,7 @@ import static com.xu.textread.constant.UserStatusConstant.DEFAULT_USER;
 import static com.xu.textread.constant.UserStatusConstant.SUSPENDED_USER;
 
 /**
- * @author aniki
+ * @Author xyc
  * @CreteDate 2023/2/9 11:20
  * 管理员表
  **/
@@ -89,8 +89,8 @@ public class AdminController {
      * @param request
      * @return
      */
-    @GetMapping("/search/list/user/page")
-    public BaseResponse<List<UserVo>> getList(UserQuery userQuery, HttpServletRequest request){
+    @GetMapping("/get/list/user/page")
+    public BaseResponse<List<UserVo>> getListUser(UserQuery userQuery, HttpServletRequest request){
         if (!userService.isAdmin(request)){
             throw new BusinessException(ErrorCode.NO_AUTH_ERROR);
         }
@@ -121,8 +121,8 @@ public class AdminController {
      * @param request
      * @return
      */
-    @GetMapping("/search/list/text/page")
-    public BaseResponse<List<TextVo>> getList(int pageSize,int pageNumber,HttpServletRequest request){
+    @GetMapping("/get/list/text/page")
+    public BaseResponse<List<TextVo>> getListText(int pageSize,int pageNumber,HttpServletRequest request){
         if (!userService.isAdmin(request)){
             throw new BusinessException(ErrorCode.NO_AUTH_ERROR);
         }
@@ -138,6 +138,15 @@ public class AdminController {
 
         return Results.success(page.getRecords().stream().map(textService::getSafeText).collect(Collectors.toList()));
     }
+
+
+
+    /**
+     * 删除作品
+     * @param textId
+     * @param request
+     * @return
+     */
     @GetMapping("/remove/text")
     public BaseResponse<Boolean> removeText(long textId,HttpServletRequest request){
         if (textId <= 0){
@@ -157,6 +166,5 @@ public class AdminController {
         }
         return Results.success(true);
     }
-
 
 }

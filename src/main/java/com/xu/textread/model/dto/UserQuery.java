@@ -12,7 +12,7 @@ import java.io.Serializable;
 
 /**
  * 用户表
- * @author aniki
+ * @Author xyc
  * @TableName user
  */
 @EqualsAndHashCode(callSuper = true)

@@ -24,7 +24,7 @@ import static com.xu.textread.constant.CommonConstant.ADD;
 import static com.xu.textread.constant.CommonConstant.DELETE;
 
 /**
- * @author aniki
+ * @Author xyc
  * @description 针对表【favorites(收藏夹)】的数据库操作Service实现
  * @createDate 2023-02-10 13:46:33
  */
@@ -46,13 +46,13 @@ public class FavoritesServiceImpl extends ServiceImpl<FavoritesMapper, Favorites
         Long userId = updateRequest.getUserId();
 
 
-        if (!userId.equals(userService.getLoginUser(request).getUserId())) {
+        if (!userId.equals(userService.getLoginUserId(request))) {
             throw new BusinessException(ErrorCode.REQUEST_ERROR, "不是本人操作");
         }
 
         Long textId = updateRequest.getTextId();
         QueryWrapper<Favorites> favoritesQueryWrapper = new QueryWrapper<>();
-        favoritesQueryWrapper.eq("userId", textId).eq("textId", textId);
+        favoritesQueryWrapper.eq("userId", userId).eq("textId", textId);
 
 
         Long updateCode = updateRequest.getUpdateCode();
@@ -62,6 +62,7 @@ public class FavoritesServiceImpl extends ServiceImpl<FavoritesMapper, Favorites
 
         long result = 0;
         if (updateCode == ADD) {
+            long count = this.count(favoritesQueryWrapper);
             if (this.count(favoritesQueryWrapper) != 0) {
                 throw new BusinessException(ErrorCode.REQUEST_ERROR, "你已经收藏过");
             }
@@ -79,12 +80,17 @@ public class FavoritesServiceImpl extends ServiceImpl<FavoritesMapper, Favorites
         return result;
     }
 
+
+
     @Override
     public List<TextVo> favoriteVosList(long userId, HttpServletRequest request) {
 
-        if (userId != userService.getLoginUser(request).getUserId()) {
+
+        if (!userService.isMe(userId,request)) {
             throw new BusinessException(ErrorCode.REQUEST_ERROR, "不是本人操作");
         }
+
+        userService.isMe(userId,request);
 
         QueryWrapper<Favorites> favoritesQueryWrapper = new QueryWrapper<>();
         favoritesQueryWrapper.eq("userId", userId);

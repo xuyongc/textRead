@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 /**
-* @author aniki
+* @Author xyc
 * @description 针对表【friends(关注表)】的数据库操作Service
 * @createDate 2023-02-10 13:46:33
 */
@@ -29,4 +29,11 @@ public interface FriendsService extends IService<Friends> {
      * @return
      */
     List<FriendVo> getFriendsList(long userId);
+
+    /**
+     * 获得我的粉丝
+     * @param userId
+     * @return
+     */
+    List<FriendVo> getMyFansList(long userId);
 }

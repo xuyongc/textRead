@@ -1,7 +1,7 @@
 package com.xu.textread.constant;
 
 /**
- * @author aniki
+ * @Author xyc
  * @CreteDate 2023/2/9 11:04
  **/
 public interface AuthorTextConstant {

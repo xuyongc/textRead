@@ -10,6 +10,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.util.DigestUtils;
 
 import javax.annotation.Resource;
+import java.util.Arrays;
 import java.util.List;
 
 @SpringBootTest
@@ -45,6 +46,45 @@ class TextReadApplicationTests {
 
         Text text = BeanUtil.copyProperties(textVo, new Text());
         System.out.println(text);
+    }
+
+    @Test
+    void a(){
+        int[] nums1 = new int[]{1,2,3,0,0,0};
+        int m = 3;
+        int[] nums2 = new int[]{2,5,6};
+        int n = 3;
+        for (int i = 0; i != n; ++i) {
+            nums1[m + i] = nums2[i];
+        }
+        System.arraycopy(nums2,0,nums1,0,n);
+        Arrays.sort(nums1);
+    }
+
+
+    public static void main(String[] args) {
+        int i = climbStairs(10);
+    }
+
+    public static int climbStairs(int n) {
+        int[] oth = new int[n + 1];
+        return swap(n,oth);
+    }
+
+    static int  swap(int n,int[] oth){
+        if(oth[n] > 0){
+
+            return oth[n];
+        }
+        if(n == 1){
+            return oth[1] = 1;
+        } else if(n == 2){
+            return oth[2] = 2;
+        }else{
+            oth[n] = swap(n - 1,oth) + swap(n - 2,oth);
+        }
+
+        return oth[n];
     }
 
 }

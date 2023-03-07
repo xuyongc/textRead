@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 /**
-* @author aniki
+* @Author xyc
 * @description 针对表【favorites(收藏夹)】的数据库操作Service
 * @createDate 2023-02-10 13:46:33
 */

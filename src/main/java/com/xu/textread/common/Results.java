@@ -1,7 +1,7 @@
 package com.xu.textread.common;
 
 /**
- * @author aniki
+ * @Author xyc
  * @CreteDate 2023/1/26 22:31
  **/
 public class Results {

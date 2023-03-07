@@ -5,7 +5,7 @@ import lombok.Data;
 import java.io.Serializable;
 
 /**
- * @author aniki
+ * @Author xyc
  * @CreteDate 2023/2/10 14:49
  **/
 @Data
@@ -19,7 +19,7 @@ public class FriendVo implements Serializable {
     /**
      * 关注id
      */
-    private Long friendId;
+    private Long userId;
 
     /**
      * 用户昵称

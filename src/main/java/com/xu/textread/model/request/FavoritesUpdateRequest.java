@@ -11,7 +11,7 @@ import java.util.Date;
 
 /**
  * 收藏夹
- * @author aniki
+ * @Author xyc
  * @TableName favorites
  */
 @Data

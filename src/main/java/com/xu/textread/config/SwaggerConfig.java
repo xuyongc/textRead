@@ -12,7 +12,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2WebMvc;
 
 
 /**
- * @author aniki
+ * @Author xyc
  */
 @Configuration
 @EnableSwagger2WebMvc

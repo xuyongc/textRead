@@ -1,7 +1,7 @@
 package com.xu.textread.utils;
 
 /**
- * @author aniki
+ * @Author xyc
  * @CreteDate 2023/2/11 15:23
  **/
 public class NumberUtils {
@@ -24,13 +24,13 @@ public class NumberUtils {
         return true;
     }
 
-    public static boolean isNullAndLessZero(Integer number1,Long... numbers) {
+    public static boolean isNullAndLessZero(Integer number1, Long... numbers) {
         for (Long number : numbers) {
             if (number == null || number <= 0) {
                 return false;
             }
 
-            if (number1 == null || number1 < 0){
+            if (number1 == null || number1 < 0) {
                 return false;
             }
         }

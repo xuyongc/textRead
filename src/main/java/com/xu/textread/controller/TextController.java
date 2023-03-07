@@ -32,7 +32,7 @@ import static com.xu.textread.constant.UserRoleConstant.AUTHOR_ROLE;
 import static com.xu.textread.constant.UserRoleConstant.DEFAULT_ROLE;
 
 /**
- * @author aniki
+ * @Author xyc
  * @CreteDate 2023/1/29 19:31
  * 文章表
  **/

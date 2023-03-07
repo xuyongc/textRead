@@ -20,7 +20,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
 /**
- * @author aniki
+ * @Author xyc
  * @description 针对表【comments(评论表)】的数据库操作Service实现
  * @createDate 2023-02-10 13:46:33
  */
@@ -69,7 +69,7 @@ public class CommentsServiceImpl extends ServiceImpl<CommentsMapper, Comments>
             throw new BusinessException(ErrorCode.PARAMS_ERROR);
         }
 
-        if (userId != userService.getLoginUser(request).getUserId()){
+        if (userId != userService.getLoginUserId(request)){
             throw new BusinessException(ErrorCode.REQUEST_ERROR, "不是本人操作");
         }
 

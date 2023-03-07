@@ -6,11 +6,16 @@ import java.io.Serializable;
 
 /**
  * 用户表
- * @author aniki
+ * @Author xyc
  * @TableName user
  */
 @Data
 public class UserUpdateRequest implements Serializable {
+
+    /**
+     * 用户id
+     */
+    private Long userId;
     /**
      * 用户昵称
      */

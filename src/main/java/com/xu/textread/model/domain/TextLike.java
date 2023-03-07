@@ -10,7 +10,7 @@ import lombok.Data;
 
 /**
  * 点赞表
- * @author aniki
+ * @Author xyc
  * @TableName TextLike
  */
 @TableName(value ="Textlike")

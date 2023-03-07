@@ -1,7 +1,7 @@
 package com.xu.textread.constant;
 
 /**
- * @author aniki
+ * @Author xyc
  * @CreteDate 2023/2/7 20:04
  **/
 public interface UserStatusConstant {

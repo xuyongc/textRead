@@ -3,7 +3,7 @@ package com.xu.textread.model.request;
 import lombok.Data;
 
 /**
- * @author aniki
+ * @Author xyc
  * @CreteDate 2023/2/8 19:11
  **/
 @Data

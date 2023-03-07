@@ -3,7 +3,7 @@ package com.xu.textread.common.exception;
 import com.xu.textread.common.ErrorCode;
 
 /**
- * @author aniki
+ * @Author xyc
  * @CreteDate 2023/1/26 22:50
  **/
 public class BusinessException extends RuntimeException{
