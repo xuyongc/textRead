@@ -18,9 +18,9 @@
         createTime,updateTime,isDelete
     </sql>
     <select id="selectFriendVoList" resultType="com.xu.textread.model.vo.FriendVo">
-        select f.friendsId,u.userId,u.nickName,u.avatarUrl from user as u , (select friendsId,friendId from friends where userId = ${userId} and isDelete = 0) as f where u.userId = f.friendId;
+        select f.friendId,u.userId,u.nickName,u.avatarUrl from user as u , (select friendsId,friendId from friends where userId = ${userId} and isDelete = 0) as f where u.userId = f.friendId;
     </select>
     <select id="selectMyFanList" resultType="com.xu.textread.model.vo.FriendVo">
-        select f.friendsId,u.userId,u.nickName,u.avatarUrl from user as u , (select friendsId,friendId from friends where friendId = ${friendId} and isDelete = 0) as f where u.userId = f.friendId;
+        select u.userId,u.nickName,u.avatarUrl from user as u , (select userId from friends where friendId = ${userId} and isDelete = 0) as f where u.userId = f.userId;
     </select>
 </mapper>

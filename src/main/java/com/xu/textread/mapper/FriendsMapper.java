@@ -25,10 +25,10 @@ public interface FriendsMapper extends BaseMapper<Friends> {
 
     /**
      * 查询我的粉丝
-     * @param friendId
+     * @param userId
      * @return
      */
-    List<FriendVo> selectMyFanList(long friendId);
+    List<FriendVo> selectMyFanList(@Param("userId")long userId);
 }
 
 

@@ -21,7 +21,7 @@ public interface FriendsService extends IService<Friends> {
      * @param request
      * @return
      */
-    boolean friendsUpdate(FriendsRequest friendsRequest, HttpServletRequest request);
+    boolean friendsAdd(FriendsRequest friendsRequest, HttpServletRequest request);
 
     /**
      * 查找用户

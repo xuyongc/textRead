@@ -29,7 +29,7 @@ server:
     session:
       cookie:
         domain: localhost
-#    context-path: /api
+    context-path: /api
 
 mybatis-plus:
   configuration:

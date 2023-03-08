@@ -52,7 +52,7 @@ public class FriendsController {
             throw new BusinessException(ErrorCode.PARAMS_ERROR);
         }
 
-        boolean result = friendsService.friendsUpdate(friendsRequest, request);
+        boolean result = friendsService.friendsAdd(friendsRequest, request);
 
         if (!result) {
             throw new BusinessException(ErrorCode.SYSTEM_ERROR);
@@ -60,18 +60,56 @@ public class FriendsController {
         return Results.success(friendsRequest.getFriendId());
     }
 
+//    /**
+//     * 取消关注
+//     *
+//     * @param friendsId
+//     * @param userId
+//     * @param request
+//     * @return
+//     */
+//    @GetMapping("/delete")
+//    public BaseResponse<Boolean> deleteFriends(long friendsId, long userId, HttpServletRequest request) {
+//
+//        //改为post
+//        if (!NumberUtils.isNullAndLessZero(friendsId, userId)) {
+//            throw new BusinessException(ErrorCode.PARAMS_ERROR);
+//        }
+//
+//        if (userId != userService.getLoginUserId(request)) {
+//            throw new BusinessException(ErrorCode.REQUEST_ERROR, "不是自己");
+//        }
+//
+//        QueryWrapper<Friends> friendsQueryWrapper = new QueryWrapper<>();
+//        friendsQueryWrapper.eq("friendsId", friendsId);
+//        long count = friendsService.count(friendsQueryWrapper);
+//
+//        if (count == 0) {
+//            throw new BusinessException(ErrorCode.PARAMS_ERROR, "你已经删除");
+//        }
+//
+//        boolean result = friendsService.remove(friendsQueryWrapper);
+//
+//        if (!result) {
+//            throw new BusinessException(ErrorCode.SYSTEM_ERROR);
+//        }
+//
+//        return Results.success(true);
+//    }
+
     /**
-     * 列表删除
+     * 取消关注
      *
-     * @param friendsId
+     * @param friendId
      * @param userId
      * @param request
      * @return
      */
     @GetMapping("/delete")
-    public BaseResponse<Boolean> deleteFriends(long friendsId, long userId, HttpServletRequest request) {
+    public BaseResponse<Boolean> deleteFriends(long friendId, long userId, HttpServletRequest request) {
 
-        if (!NumberUtils.isNullAndLessZero(friendsId, userId)) {
+        //改为post
+        if (!NumberUtils.isNullAndLessZero(friendId, userId)) {
             throw new BusinessException(ErrorCode.PARAMS_ERROR);
         }
 
@@ -80,7 +118,7 @@ public class FriendsController {
         }
 
         QueryWrapper<Friends> friendsQueryWrapper = new QueryWrapper<>();
-        friendsQueryWrapper.eq("friendsId", friendsId);
+        friendsQueryWrapper.eq("friendId", friendId).eq("userId",userId);
         long count = friendsService.count(friendsQueryWrapper);
 
         if (count == 0) {
@@ -129,24 +167,24 @@ public class FriendsController {
     /**
      * 查询我的粉丝
      *
-     * @param friendId
+     * @param userId 这个是自己的userId 在SQL查询里面作为friendId查询
      * @param request
      * @return
      */
     @GetMapping("/fans/list")
-    public BaseResponse<List<FriendVo>> listFan(long friendId, HttpServletRequest request) {
+    public BaseResponse<List<FriendVo>> listFan(long userId, HttpServletRequest request) {
 
-        if (friendId <= 0) {
+        if (userId <= 0) {
             throw new BusinessException(ErrorCode.PARAMS_ERROR);
         }
 
-        if (friendId != userService.getLoginUserId(request)) {
+        if (userId != userService.getLoginUserId(request)) {
             throw new BusinessException(ErrorCode.REQUEST_ERROR, "不是自己");
         }
 
         // todo 不要查出自己防止脏脏数据
 
-        List<FriendVo> friendVoList = friendsService.getMyFansList(friendId);
+        List<FriendVo> friendVoList = friendsService.getMyFansList(userId);
 
         if (friendVoList.isEmpty()) {
             return Results.success(new ArrayList<>());

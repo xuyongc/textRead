@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @Author xyc
@@ -33,7 +34,7 @@ public class FriendsServiceImpl extends ServiceImpl<FriendsMapper, Friends>
     private FriendsMapper friendsMapper;
 
     @Override
-    public boolean friendsUpdate(FriendsRequest friendsRequest, HttpServletRequest request) {
+    public boolean friendsAdd(FriendsRequest friendsRequest, HttpServletRequest request) {
         // todo 参数判断
 
         Long userId = friendsRequest.getUserId();
@@ -69,12 +70,32 @@ public class FriendsServiceImpl extends ServiceImpl<FriendsMapper, Friends>
         return friendsMapper.selectFriendVoList(userId);
     }
 
+    /**
+     * 判断是发互关
+     * 通过粉丝表userId 和 自己的userId 查出是否互关
+     * @param userId
+     * @return
+     */
     @Override
-    public List<FriendVo> getMyFansList(long friendId) {
-        if (friendId <= 0) {
+    public List<FriendVo> getMyFansList(long userId) {
+        if (userId <= 0) {
             throw new BusinessException(ErrorCode.PARAMS_ERROR);
         }
-        return friendsMapper.selectMyFanList(friendId);
+
+        // todo sql 语句优化
+        List<FriendVo> friendVoList = friendsMapper.selectMyFanList(userId);
+        friendVoList.forEach(friendVo -> {
+            QueryWrapper<Friends> friendsQueryWrapper = new QueryWrapper<>();
+            friendsQueryWrapper.eq("userId", userId).eq("friendId", friendVo.getUserId());
+
+            Friends friend = this.getOne(friendsQueryWrapper);
+            if (friend == null) {
+                friendVo.setIsFollowed(1);
+            } else {
+                friendVo.setIsFollowed(0);
+            }
+        });
+        return friendVoList;
     }
 }
 

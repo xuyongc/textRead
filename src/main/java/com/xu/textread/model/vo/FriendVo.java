@@ -12,19 +12,24 @@ import java.io.Serializable;
 public class FriendVo implements Serializable {
 
     /**
-     * 表ID
-     */
-    private Long friendsId;
-    
-    /**
      * 关注id
      */
     private Long userId;
 
     /**
+     * 关注id
+     */
+    private Long friendId;
+
+    /**
      * 用户昵称
      */
     private String nickName;
+
+    /**
+     * 是否相互关注
+     */
+    private Integer isFollowed;
 
     /**
      * 头像
