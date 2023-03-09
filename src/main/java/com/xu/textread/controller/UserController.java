@@ -37,10 +37,8 @@ import java.util.List;
 @CrossOrigin(origins = {"http://127.0.0.1:5173/"})
 public class UserController {
 
-
 //    自主new出来的对象不被spring作为javaBean对象管理起来，从而导致该对象内的所有@Autowied也都不会被自动注入。
 //    在自己里面用别人的,别人用自己的注入会bean依赖循环
-
     @Resource
     private UserService userService;
 
@@ -183,9 +181,7 @@ public class UserController {
             throw new BusinessException(ErrorCode.NOT_LOGIN_ERROR);
         }
 
-        UserVo userVo = userService.getLoginUser(request);
-
-        return Results.success(userVo);
+        return Results.success(loginUser);
     }
 
     /**
@@ -217,14 +213,16 @@ public class UserController {
     /**
      * 修改上传同用
      *
-     * @param userId
-     * @param request
+     * @param
      * @param file
+     *
+     * @param request
      * @return
      */
     @PostMapping("/avatarUrl")
-    public BaseResponse<String> avatarUrlUpload(long userId, HttpServletRequest request, MultipartFile file) {
-        if (file == null) {
+    public BaseResponse<String> avatarUrlUpload(Long userId,@RequestParam("file") MultipartFile file, HttpServletRequest request) {
+
+        if (file == null || !NumberUtils.isNumberLessZero(userId)) {
             throw new BusinessException(ErrorCode.PARAMS_ERROR);
         }
 

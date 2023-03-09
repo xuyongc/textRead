@@ -96,7 +96,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
         }
 
         request.getSession().setAttribute(USER_LOGIN_DATA, user);
-
+//        E99A270C6D9B335F9CF11C452D954CE8
         return user;
     }
 

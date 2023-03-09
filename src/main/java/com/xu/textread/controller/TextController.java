@@ -64,7 +64,7 @@ public class TextController {
 
         long textId = textService.saveText(saveRequest, request);
 
-        if (saveRequest.getUserRole() == DEFAULT_ROLE) {
+        if (userService.getLoginUser(request).getUserRole() == DEFAULT_ROLE) {
             // todo 事物处理 防止发表作品之后没成为作者
             UpdateWrapper<User> userUpdateWrapper = new UpdateWrapper<>();
             userUpdateWrapper.set("userStatus", AUTHOR_ROLE).eq("userId", saveRequest.getTextAuthorId());
