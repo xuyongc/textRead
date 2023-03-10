@@ -10,10 +10,12 @@ import com.xu.textread.model.domain.Text;
 import com.xu.textread.model.domain.User;
 import com.xu.textread.model.request.TextSaveRequest;
 import com.xu.textread.model.request.TextUpdateRequest;
+import com.xu.textread.model.vo.TextViewVo;
 import com.xu.textread.model.vo.TextVo;
 import com.xu.textread.service.TextService;
 import com.xu.textread.mapper.TextMapper;
 import com.xu.textread.service.UserService;
+import com.xu.textread.utils.NumberUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
@@ -175,6 +177,15 @@ public class TextServiceImpl extends ServiceImpl<TextMapper, Text>
         textVo.setTextAuthorName(user.getNickName());
         BeanUtils.copyProperties(text, textVo);
         return textVo;
+    }
+
+    @Override
+    public TextViewVo getOneTextView(Long textId, Long userId) {
+        if (!NumberUtils.isNumberLessZero(textId,userId)){
+            throw new BusinessException(ErrorCode.PARAMS_ERROR);
+        }
+
+        return textMapper.selectTextViewVo(textId,userId);
     }
 
 }

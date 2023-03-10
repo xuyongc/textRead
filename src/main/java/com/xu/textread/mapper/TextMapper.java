@@ -2,6 +2,8 @@ package com.xu.textread.mapper;
 
 import com.xu.textread.model.domain.Text;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.xu.textread.model.vo.TextViewVo;
+import org.apache.ibatis.annotations.Param;
 
 /**
 * @Author xyc
@@ -11,6 +13,13 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 */
 public interface TextMapper extends BaseMapper<Text> {
 
+    /**
+     * 获取textViewVo
+     * @param textId
+     * @param userId
+     * @return
+     */
+    TextViewVo selectTextViewVo(@Param("textId") Long textId,@Param("userId") Long userId);
 }
 
 

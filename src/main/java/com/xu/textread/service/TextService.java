@@ -4,6 +4,7 @@ import com.xu.textread.model.domain.Text;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.xu.textread.model.request.TextSaveRequest;
 import com.xu.textread.model.request.TextUpdateRequest;
+import com.xu.textread.model.vo.TextViewVo;
 import com.xu.textread.model.vo.TextVo;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -59,4 +60,12 @@ public interface TextService extends IService<Text> {
      * @return
      */
     TextVo getSafeText(Text text);
+
+    /**
+     * 获取文章内容
+     * @param textId
+     * @param userId
+     * @return
+     */
+    TextViewVo getOneTextView(Long textId, Long userId);
 }

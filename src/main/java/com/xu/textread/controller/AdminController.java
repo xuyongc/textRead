@@ -139,8 +139,6 @@ public class AdminController {
         return Results.success(page.getRecords().stream().map(textService::getSafeText).collect(Collectors.toList()));
     }
 
-
-
     /**
      * 删除作品
      * @param textId

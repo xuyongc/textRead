@@ -21,7 +21,6 @@ public class TextVo implements Serializable {
      */
     private Long textId;
 
-
     /**
      * 作者Id
      */

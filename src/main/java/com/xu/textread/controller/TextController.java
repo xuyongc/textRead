@@ -13,6 +13,7 @@ import com.xu.textread.model.domain.User;
 import com.xu.textread.model.dto.TextSearchQuery;
 import com.xu.textread.model.request.TextSaveRequest;
 import com.xu.textread.model.request.TextUpdateRequest;
+import com.xu.textread.model.vo.TextViewVo;
 import com.xu.textread.model.vo.TextVo;
 import com.xu.textread.service.TextService;
 import com.xu.textread.service.UserService;
@@ -143,6 +144,21 @@ public class TextController {
         Page<Text> textPage = textService.page(new Page<>(pageNumber, pageSize),textQueryWrapper);
         List<TextVo> textVoList = textPage.getRecords().stream().map(text -> textService.getSafeText(text)).collect(Collectors.toList());
         return Results.success(textVoList);
+    }
+
+    @GetMapping("/get/one")
+    public BaseResponse<TextViewVo> textBaseResponse(Long textId,Long userId){
+        if (!NumberUtils.isNumberLessZero(textId,userId)){
+            throw new BusinessException(ErrorCode.PARAMS_ERROR);
+        }
+
+        TextViewVo textViewVo = textService.getOneTextView(textId,userId);
+
+        if (textViewVo == null){
+            throw new BusinessException(ErrorCode.NULL_ERROR);
+        }
+
+        return Results.success(textViewVo);
     }
 
 }
