@@ -28,7 +28,7 @@
         isDelete
     </sql>
     <select id="selectTextViewVo" resultType="com.xu.textread.model.vo.TextViewVo">
-        select userId as textAuthorId,avatarUrl as showImgUrl,text.textId as textId,text.textHtml as textHtml, text.textFavoriteNumber as textFavoriteNumber, text.textLikeNumber as textLikeNumber from user,(select textId,textHtml,textFavoriteNumber,textLikeNumber from text where textId = #{textId}) as text where userId = #{userId};
+        select userId as textAuthorId,user.avatarUrl as showImgUrl,text.textId as textId,text.textHtml as textHtml, text.textFavoriteNumber as textFavoriteNumber, text.textLikeNumber as textLikeNumber from user,(select textId,textHtml,textFavoriteNumber,textLikeNumber from text where textId = #{textId}) as text where userId = #{userId};
     </select>
 
 </mapper>

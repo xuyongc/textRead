@@ -22,5 +22,5 @@ public interface TextLikeService extends IService<TextLike> {
      * @param request
      * @return
      */
-    boolean add(TextLikeRequest textLikeRequest, HttpServletRequest request);
+    Long add(TextLikeRequest textLikeRequest, HttpServletRequest request);
 }

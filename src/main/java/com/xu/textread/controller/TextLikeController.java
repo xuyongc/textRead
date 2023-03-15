@@ -5,6 +5,7 @@ import com.xu.textread.common.BaseResponse;
 import com.xu.textread.common.ErrorCode;
 import com.xu.textread.common.Results;
 import com.xu.textread.common.exception.BusinessException;
+import com.xu.textread.model.domain.Favorites;
 import com.xu.textread.model.domain.TextLike;
 import com.xu.textread.model.request.TextLikeRequest;
 import com.xu.textread.model.vo.TextVo;
@@ -44,18 +45,37 @@ public class TextLikeController {
      * @return
      */
     @PostMapping("/add")
-    public BaseResponse<Boolean> addTextLike(@RequestBody TextLikeRequest textLikeRequest, HttpServletRequest request) {
+    public BaseResponse<Long> addTextLike(@RequestBody TextLikeRequest textLikeRequest, HttpServletRequest request) {
 
         if (textLikeRequest == null) {
             throw new BusinessException(ErrorCode.PARAMS_ERROR);
         }
 
-        boolean result = textLikeService.add(textLikeRequest, request);
+        Long result = textLikeService.add(textLikeRequest, request);
 
-        if (!result) {
+        if (result < 0) {
             throw new BusinessException(ErrorCode.SYSTEM_ERROR, "数据库插入失败");
         }
 
-        return Results.success(true);
+        return Results.success(result);
     }
+
+    /**
+     * 判断是否点过赞
+     *
+     * @param userId
+     * @param textId
+     * @return
+     */
+    @GetMapping("/is")
+    public BaseResponse<Boolean> isFavorite(Long userId, Long textId) {
+        if (!NumberUtils.isNumberLessZero(userId, textId)) {
+            throw new BusinessException(ErrorCode.PARAMS_ERROR);
+        }
+        // todo 升级为redis或者本地缓存
+        long count = textLikeService.count(new QueryWrapper<TextLike>().eq("userId", userId).eq("textId", textId));
+
+        return Results.success(count > 0);
+    }
+
 }

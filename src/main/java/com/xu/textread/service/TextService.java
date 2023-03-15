@@ -29,6 +29,15 @@ public interface TextService extends IService<Text> {
     long saveText(TextSaveRequest saveRequest, HttpServletRequest request);
 
     /**
+     * 文章图片上传
+     * @param userId
+     * @param request
+     * @param file
+     * @return
+     */
+    String textShowImageUpload(long userId, HttpServletRequest request, MultipartFile file);
+
+    /**
      * 删除作品
      * @param textId
      * @param userId

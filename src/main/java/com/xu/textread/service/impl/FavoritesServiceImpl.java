@@ -1,6 +1,7 @@
 package com.xu.textread.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.xu.textread.common.ErrorCode;
 import com.xu.textread.common.exception.BusinessException;
@@ -14,6 +15,7 @@ import com.xu.textread.service.TextService;
 import com.xu.textread.service.UserService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -42,6 +44,7 @@ public class FavoritesServiceImpl extends ServiceImpl<FavoritesMapper, Favorites
     private TextService textService;
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public long favoritesUpdate(FavoritesUpdateRequest updateRequest, HttpServletRequest request) {
         Long userId = updateRequest.getUserId();
 
@@ -50,7 +53,11 @@ public class FavoritesServiceImpl extends ServiceImpl<FavoritesMapper, Favorites
             throw new BusinessException(ErrorCode.REQUEST_ERROR, "不是本人操作");
         }
 
+
         Long textId = updateRequest.getTextId();
+        if (textService.getById(textId).getTextAuthorId().equals(userId)) {
+            throw new BusinessException(ErrorCode.PARAMS_ERROR, "不能操作自己");
+        }
         QueryWrapper<Favorites> favoritesQueryWrapper = new QueryWrapper<>();
         favoritesQueryWrapper.eq("userId", userId).eq("textId", textId);
 
@@ -60,37 +67,45 @@ public class FavoritesServiceImpl extends ServiceImpl<FavoritesMapper, Favorites
         Favorites favorites = new Favorites();
         BeanUtils.copyProperties(updateRequest, favorites);
 
-        long result = 0;
+        long result = textService.getById(textId).getTextFavoriteNumber();
+        UpdateWrapper<Text> textUpdateWrapper = new UpdateWrapper<>();
+        textUpdateWrapper.eq("textId", textId);
         if (updateCode == ADD) {
-            long count = this.count(favoritesQueryWrapper);
             if (this.count(favoritesQueryWrapper) != 0) {
                 throw new BusinessException(ErrorCode.REQUEST_ERROR, "你已经收藏过");
             }
 
-            result = favoritesMapper.insert(favorites);
+            favoritesMapper.insert(favorites);
+            textUpdateWrapper.set("textFavoriteNumber", result += 1);
+
         }
         if (updateCode == DELETE) {
             if (this.count(favoritesQueryWrapper) == 0) {
                 throw new BusinessException(ErrorCode.REQUEST_ERROR, "你已经未收藏");
             }
 
-            result = favoritesMapper.deleteById(favoritesQueryWrapper);
+            favoritesMapper.delete(favoritesQueryWrapper);
+            if (result > 0) {
+                textUpdateWrapper.set("textFavoriteNumber", result -= 1);
+            }
         }
+
+
+        textService.update(textUpdateWrapper);
 
         return result;
     }
-
 
 
     @Override
     public List<TextVo> favoriteVosList(long userId, HttpServletRequest request) {
 
 
-        if (!userService.isMe(userId,request)) {
+        if (!userService.isMe(userId, request)) {
             throw new BusinessException(ErrorCode.REQUEST_ERROR, "不是本人操作");
         }
 
-        userService.isMe(userId,request);
+        userService.isMe(userId, request);
 
         QueryWrapper<Favorites> favoritesQueryWrapper = new QueryWrapper<>();
         favoritesQueryWrapper.eq("userId", userId);
@@ -103,6 +118,7 @@ public class FavoritesServiceImpl extends ServiceImpl<FavoritesMapper, Favorites
                 }
         ).collect(Collectors.toList());
     }
+
 
 }
 

@@ -21,6 +21,7 @@ import com.xu.textread.utils.NumberUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -146,6 +147,12 @@ public class TextController {
         return Results.success(textVoList);
     }
 
+    /**
+     * 获取页面内容
+     * @param textId
+     * @param userId
+     * @return
+     */
     @GetMapping("/get/one")
     public BaseResponse<TextViewVo> textBaseResponse(Long textId,Long userId){
         if (!NumberUtils.isNumberLessZero(textId,userId)){
@@ -159,6 +166,28 @@ public class TextController {
         }
 
         return Results.success(textViewVo);
+    }
+
+    /**
+     * 获取上传的文件地址
+     * @param userId
+     * @param file
+     * @param request
+     * @return
+     */
+    @PostMapping("/showImage/upload")
+    // todo userId 前端转json
+    public BaseResponse<String> showImageUpload(Long userId, @RequestParam("file") MultipartFile file, HttpServletRequest request){
+        if (file == null || !NumberUtils.isNumberLessZero(userId)) {
+            throw new BusinessException(ErrorCode.PARAMS_ERROR);
+        }
+
+        String upload = textService.textShowImageUpload(userId, request, file);
+        if (upload == null) {
+            throw new BusinessException(ErrorCode.SYSTEM_ERROR);
+        }
+
+        return Results.success(upload);
     }
 
 }

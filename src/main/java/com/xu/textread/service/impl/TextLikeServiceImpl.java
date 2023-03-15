@@ -40,7 +40,7 @@ public class TextLikeServiceImpl extends ServiceImpl<TextLikeMapper, TextLike>
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public boolean add(TextLikeRequest textLikeRequest, HttpServletRequest request) {
+    public Long add(TextLikeRequest textLikeRequest, HttpServletRequest request) {
         Long textId = textLikeRequest.getTextId();
         Long userId = textLikeRequest.getUserId();
 
@@ -65,14 +65,16 @@ public class TextLikeServiceImpl extends ServiceImpl<TextLikeMapper, TextLike>
         if (!saveResult) {
             throw new BusinessException(ErrorCode.SYSTEM_ERROR, "数据库异常");
         }
+
+        Long result = textService.getById(textId).getTextLikeNumber();
         UpdateWrapper<Text> textUpdateWrapper = new UpdateWrapper<>();
-        textUpdateWrapper.set("textLikeNumber", textService.getById(textId).getTextLikeNumber() + 1).eq("userId", userId);
+        textUpdateWrapper.set("textLikeNumber", result += 1).eq("textId", textId);
         boolean updateResult = textService.update(textUpdateWrapper);
 
         if (!updateResult) {
             throw new BusinessException(ErrorCode.SYSTEM_ERROR, "数据库异常");
         }
-        return true;
+        return result;
     }
 }
 

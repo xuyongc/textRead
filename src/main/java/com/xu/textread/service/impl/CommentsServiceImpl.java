@@ -1,5 +1,6 @@
 package com.xu.textread.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.xu.textread.common.ErrorCode;
 import com.xu.textread.common.exception.BusinessException;
@@ -7,6 +8,7 @@ import com.xu.textread.mapper.CommentsMapper;
 import com.xu.textread.model.domain.Comments;
 import com.xu.textread.model.request.CommentsAddRequest;
 import com.xu.textread.model.request.CommentsUpdateRequest;
+import com.xu.textread.model.vo.CommentsVo;
 import com.xu.textread.service.CommentsService;
 
 
@@ -18,6 +20,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 /**
  * @Author xyc
@@ -76,6 +79,16 @@ public class CommentsServiceImpl extends ServiceImpl<CommentsMapper, Comments>
         if (content.length() > 150) {
             throw new BusinessException(ErrorCode.REQUEST_ERROR, "评论过长");
         }
+    }
+
+    public void listComments(Long textId){
+        if (NumberUtils.isNumberLessZero(textId)){
+            throw new BusinessException(ErrorCode.PARAMS_ERROR);
+        }
+
+        List<Comments> comments = this.list(new QueryWrapper<Comments>().eq("textId", textId));
+
+        List<CommentsVo> commentsVoList = BeanUtil.copyList(comments, new CommentsVo());
     }
 }
 

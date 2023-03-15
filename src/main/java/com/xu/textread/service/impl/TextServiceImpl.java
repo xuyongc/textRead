@@ -5,7 +5,6 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.xu.textread.common.ErrorCode;
 import com.xu.textread.common.exception.BusinessException;
-import com.xu.textread.constant.FileConstant;
 import com.xu.textread.model.domain.Text;
 import com.xu.textread.model.domain.User;
 import com.xu.textread.model.request.TextSaveRequest;
@@ -22,15 +21,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
-import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
-import java.util.Random;
 import java.util.stream.Collectors;
 
 import static com.xu.textread.constant.AuthorTextConstant.DEFAULT_TEXT;
@@ -95,6 +87,25 @@ public class TextServiceImpl extends ServiceImpl<TextMapper, Text>
         Text text = new Text();
         BeanUtils.copyProperties(saveRequest, text);
         return textMapper.insert(text);
+    }
+
+
+    @Override
+    public String textShowImageUpload(long userId, HttpServletRequest request, MultipartFile file) {
+
+        if (file == null) {
+            throw new BusinessException(ErrorCode.PARAMS_ERROR);
+        }
+
+        if (!NumberUtils.isNumberLessZero(userId)) {
+            throw new BusinessException(ErrorCode.PARAMS_ERROR);
+        }
+
+        if (!userService.isMe(userId,request)) {
+            throw new BusinessException(ErrorCode.REQUEST_ERROR, "不是本人操作");
+        }
+
+        return this.userService.upload(request, file);
     }
 
     @Override
